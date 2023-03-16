@@ -1,0 +1,671 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>00. First steps into ICs connection and wiring</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8bdb9730-d70b-43dc-8545-ccbfd1dd33bb" class="page sans"><header><h1 class="page-title">00. First steps into ICs connection and wiring</h1></header><div class="page-body"><h1 id="e56e35f0-e637-492b-9401-e6efbe0a9a46" class="">01. The Objective</h1><p id="317d9a73-2d12-4dec-856b-45f6c9f5a7a5" class="">In this laboratory tutorial, we will teach you how to identify various ICs and their specification besides tutoring you on how to connect several ICs together using a breadboard.</p><h1 id="7740445a-6453-4089-9ce9-a771fe952729" class="">02. Logic Gates</h1><p id="d5efc917-322a-4d59-bf9b-c7cf2fbdeb19" class="">First, we need to introduce the primary three logic gates which we will use to realize Boolean functions later. Note that each gate has its unique truth table.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="042ec3e9-b84d-47b6-8e35-911401313990"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">A truth table describes the relationship between the input value and the output value. Also, you must note that any logic signal is either a logic 1 (5/3.3 volts) and logic 0 (0 volts)</div></figure><h2 id="3d84976e-2b6f-473c-9afa-6977541e276a" class="">02.A. Primary Logic Gates Introduction</h2><p id="4fc258fa-a03c-40a4-93f5-6b3ff54e29bb" class="">We have four primary gates which can be found in any digital circuit, those gates are:</p><figure id="946b987a-4c8c-43a3-850a-8bcaeeaf5b4f" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.08.29_PM.png"><img style="width:288px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.08.29_PM.png"/></a></figure><figure id="5fc45213-5757-428b-9990-04ce967c5580" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.07.20_PM.png"><img style="width:240px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.07.20_PM.png"/></a></figure><figure id="767c97ef-8b1c-43e2-a4e5-1bfbc3c08299" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.08.08_PM.png"><img style="width:240px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.08.08_PM.png"/></a></figure><figure id="2e7a1c89-9be9-4829-8dca-00034fff6dc4" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.07.53_PM.png"><img style="width:240px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.07.53_PM.png"/></a></figure><p id="8d104cc9-4fec-4840-899a-717f0db04052" class="">And their inverse gates are:</p><figure id="601a683f-a272-42b8-a98b-26abf3c9ffcb" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.13.35_PM.png"><img style="width:354px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.13.35_PM.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1f657a63-6b1d-43f1-8212-ac3656c1bce7"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Note that those gates are normal gates but we have appended a NOT gate to inverse the output.  </div></figure><figure id="efd0d9b3-f00f-44f2-a861-479256826553" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.13.56_PM.png"><img style="width:240px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.13.56_PM.png"/></a></figure><figure id="4ba47638-d11b-49fa-b8ff-564fa868587b" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.16.01_PM.png"><img style="width:240px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-15_at_5.16.01_PM.png"/></a></figure><h2 id="fb5c375b-c5d5-40c6-aba9-e5ae23037f8d" class="">02.B. The Breadboard</h2><p id="b030aca2-7920-4777-9737-53966210de53" class="">The typical breadboard is laid out in a matrix of .1 inch spaced holes. Most through-hole Integrated Circuit chips or ICs will fit snuggly in this matrix. </p><h3 id="73d1e48f-db09-4b1e-9300-73f24647e47c" class="">The <strong><strong>Horizontal</strong></strong> and Vertical Layout</h3><figure id="989296c8-dffd-4746-bf7c-009377e8d66c" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/horizontal-rows.png"><img style="width:451px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/horizontal-rows.png"/></a></figure><figure id="bb7489e5-168a-4e61-aa2f-527543d54378" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/verticalpower.png"><img style="width:361px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/verticalpower.png"/></a></figure><p id="acf3bdb8-af3a-4c72-a249-bcf2387cbf19" class="">
+</p><p id="baf5a97e-5765-473d-a079-469c7c8be44c" class="">These power rails are also isolated to the right and left sides of the breadboard. If you have to manage two different power supplies or voltages, they can be isolated by keeping them on either side of the board.</p><h2 id="fbaef0a2-4a36-439d-8eac-9ee1f8f9a253" class="">02.C. Identifying the ICs Specifications </h2><p id="4866647c-dd32-4e14-96bf-a151be02f2a9" class="">Those basic logic gates are implemented as small-scale integrated circuits (SSICs) or as part of more complex medium-scale (MSI) or very large-scale (VLSI) integrated circuits. The digital IC gates are classified by their logic operation and the specific logic-circuit family they belong to. As for each logic family, it has its own basic electronic circuit and the following logic families are the most frequently used:</p><table id="afe033a7-e76b-4632-b9a8-0c4c4884166c" class="simple-table"><tbody><tr id="374d993e-12d7-46e4-b950-e09e8a248c65"><td id=";~dX" class="" style="width:47px">#</td><td id="nP|{" class="">Family name</td><td id="QC;x" class="">Full name</td><td id="TIjC" class="">Transistor type</td><td id="Oa:{" class="">Logic 1 Voltage specification</td><td id="zUdJ" class="">Logic 0 Voltage specification</td></tr><tr id="e98c799c-bf2a-461c-9946-8e1360bab67a"><td id=";~dX" class="" style="width:47px">1</td><td id="nP|{" class="">TTL</td><td id="QC;x" class="">Transistor-transistor logic</td><td id="TIjC" class="">Bipolar transistors</td><td id="Oa:{" class="">5 volts</td><td id="zUdJ" class="">0 volts</td></tr><tr id="f1d35827-7db0-47b8-8433-6a74d9d1c954"><td id=";~dX" class="" style="width:47px">2</td><td id="nP|{" class="">ECL</td><td id="QC;x" class="">Emitter-coupled logic</td><td id="TIjC" class="">Bipolar transistors</td><td id="Oa:{" class="">5 volts</td><td id="zUdJ" class="">0 volts</td></tr><tr id="4c952e28-352f-4f86-9f14-49a28698059e"><td id=";~dX" class="" style="width:47px">3</td><td id="nP|{" class="">MOS</td><td id="QC;x" class="">Metal-oxide semiconductor</td><td id="TIjC" class="">Field effect transistors</td><td id="Oa:{" class="">3.3 volts</td><td id="zUdJ" class="">0 volts</td></tr><tr id="e0d63cee-5305-427e-ad9a-af7e3c36674a"><td id=";~dX" class="" style="width:47px">4</td><td id="nP|{" class="">CMOS</td><td id="QC;x" class="">Complementary metal-oxide semiconductor</td><td id="TIjC" class="">Complementary metal-oxide semiconductor</td><td id="Oa:{" class="">3.3 volts</td><td id="zUdJ" class="">0 volts</td></tr></tbody></table><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="453c85b1-2ff9-4201-a118-b0f697e40890"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Note that you need to make sure of the ICs families when connecting them together since different families may need adaptation circuits in order to connect them properly. Therefore, please refer to (<a href="https://www.allaboutcircuits.com/textbook/digital/chpt-3/logic-signal-voltage-levels/">https://www.allaboutcircuits.com/textbook/digital/chpt-3/logic-signal-voltage-levels/</a>) to understand how to use different families within the same system.</div></figure><h2 id="f6898855-21de-4c68-bf5a-bea4b911bbea" class="">02.D. Datasheets</h2><p id="e3699677-c7ce-43de-9cf8-f95ce28d650d" class="">In order to know which ICs to buy and how to connect them you must read its datasheet. You can download any datasheet you need from (<a href="https://www.alldatasheet.com/">https://www.alldatasheet.com/</a>). To guide you let&#x27;s look at the <code>TC74LCX08F</code> datasheet, in this datasheet you must check its voltage operation value (named: Vcc / Vdd) (i.e. how many volts this IC needs in order to operate properly). In this IC it requires an operating voltage between Vcc = 2.0 ~ 3.3 volts. The second important thing is to know the configuration of the pins: </p><figure id="56cd07ba-6e7c-4ba9-b637-f047ec49e879" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.40.01_AM.png"><img style="width:263px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.40.01_AM.png"/></a></figure><p id="ab7775b9-e900-46ce-8ea3-dfb3c765c0e0" class="">This figure shows that pin 1&amp;2 are the input to the AND gate its output is connected to pin 3.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6f53a95e-c617-44ab-b0c8-bf5a73cd03d7"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">To count the pins you need to hold the notch in an upwards direction then start counting in an anti-clock direction.</div></figure><h2 id="9a7039c0-d7ea-496f-9c89-e3068ac02082" class="">02.E. Connection Patterns</h2><p id="f0197837-5d77-40ee-bc9c-12056724f964" class="">In order to simulate logic inputs for any digital circuit, you can use push buttons. However, pushbuttons need to have a default value which can be logic 0/1, therefore, there exist two primary patterns which are a pull-down button whose default value is 0 and a pull-up button whose default value is 1. The following figure shows how a pull-down is connected:</p><figure id="168d93fe-3940-44e7-80d0-5f9a97d71cfc" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.03.35_AM.png"><img style="width:432px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.03.35_AM.png"/></a></figure><p id="342e6843-f4a0-48aa-8721-7fbef3351cbb" class=""><strong>Buttons Truth Table:</strong></p><table id="ad89b686-daa1-4b75-892e-4d7d568613d3" class="simple-table"><tbody><tr id="a9fab03d-395f-4fb7-8fef-71296e4ed201"><td id="&lt;fkl" class="">Button pattern</td><td id="X_&gt;}" class="">Pressed</td><td id="|oO&lt;" class="">Release</td></tr><tr id="da8bec7e-bdac-44bb-ab34-17de0eeeb3a5"><td id="&lt;fkl" class="">Pull-down</td><td id="X_&gt;}" class="">Input ← Logic 1</td><td id="|oO&lt;" class="">Input ← Logic 0</td></tr><tr id="55ad27ca-5a34-4139-a3bd-11015231454f"><td id="&lt;fkl" class="">Pull-up</td><td id="X_&gt;}" class="">Input ← Logic 0</td><td id="|oO&lt;" class="">Input ← Logic 1</td></tr></tbody></table><p id="63f6dd5c-eb8d-4d7a-8989-6270d0efac7a" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="324b0fe8-c0cf-440b-9d75-e451c31f7096"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Note that, the pull-up is the same as the pull-down except for the voltage and ground are swapped (i.e. resistor → connected on +Voltage and button → connected on to the ground).</div></figure><figure id="87d604ad-c217-4671-a3a7-b65d597462c7" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/anode-cathode-768x144.jpg"><img style="width:336px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/anode-cathode-768x144.jpg"/></a></figure><p id="9e4469a0-e0df-4dd2-a7e6-f97773ac6a06" class="">Since the push buttons represent our input signals, then LEDs will hold the output signal (i.e. led on → logic 1. led off → logic 0). Any LED has at least two pins which are called the anode and cathode, to turn on the LED you must connect +Voltage to the anode pin and to turn it off connect 0Voltage (i.e. ground) to the same pin.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6e3a1e66-b5a2-449f-9c13-3aa828671452"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Note that, you cannot directly connect +Voltage directly to the anode without burning it. Therefore, you need to add resistance to protect it (please refer to <a href="https://mindmatters.ai/2020/10/circuit-patterns-part-i-understanding-circuit-schematics/">https://mindmatters.ai/2020/10/circuit-patterns-part-i-understanding-circuit-schematics/</a> and <a href="https://eepower.com/resistor-guide/resistor-applications/resistor-for-led/#">https://eepower.com/resistor-guide/resistor-applications/resistor-for-led/#</a> to understand more on this topic). However, the summary is to connect a 333Ω resistor in series with the anode pin.</div></figure><h1 id="4f120623-b587-4394-8aaf-b1edbb0b15e3" class="">03. Classwork</h1><p id="960bd761-4a38-453e-91da-5f5e7c6ff571" class="">In this tutorial, we are asking you to verify the output of an <code>AND</code> , <code>OR</code>, <code>NOT</code>, <code>XOR</code> gates by connecting two push buttons as inputs to the ICs and an Led as an output on a breadboard, then verify their truth table.</p><figure id="74b89d80-6f18-416f-875d-4b9844d1e67d" class="image"><a href="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.40.01_AM.png"><img style="width:263px" src="00%20First%20steps%20into%20ICs%20connection%20and%20wiring%208bdb9730d70b43dc8545ccbfd1dd33bb/Screen_Shot_2022-02-16_at_10.40.01_AM.png"/></a></figure></div></article></body></html>

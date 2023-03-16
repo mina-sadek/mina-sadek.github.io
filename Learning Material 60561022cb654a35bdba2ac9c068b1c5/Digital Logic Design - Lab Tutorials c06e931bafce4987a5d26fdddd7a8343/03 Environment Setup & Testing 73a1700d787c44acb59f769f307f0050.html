@@ -1,0 +1,702 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>03. Environment Setup &amp; Testing</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="73a1700d-787c-44ac-b59f-769f307f0050" class="page sans"><header><h1 class="page-title">03. Environment Setup &amp; Testing</h1></header><div class="page-body"><div id="19b62b24-b57d-4e60-bfa1-ce32b663e347" class="column-list"><div id="c0e9b9c1-06af-4e42-8280-0e4f2f237927" style="width:50.000000000000014%" class="column"><figure id="9142a2e5-d162-4ce6-9338-d4cc9e93b591" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled.png"><img style="width:1000px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled.png"/></a></figure></div><div id="f1f7b3a0-0fdf-42d2-b383-18c4e2ac6bac" style="width:50%" class="column"><figure id="340d6e23-8c58-4169-a0f7-26bb8cf43269" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%201.png"><img style="width:624px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%201.png"/></a></figure></div></div><h1 id="36548d1b-cad6-410a-85ad-504c98fe86ec" class="">01 - Objective</h1><p id="d695daf7-5742-4c6c-97a9-ef82c565665f" class="">In this Lab tutorial, we will learn how to install software tools required to develop, simulate and test VHDL code, also those required to upload the compiled code to the FPGA hardware.</p><p id="38ee209f-74fe-4dc6-a120-52374a4bd756" class="">At the end of this tutorial you should have the required software tools and have good understanding of how to create a project from scratch, add VHDL code, perform pin assignment, compile and upload the compiled code to the hardware FPGA and test it.</p><h1 id="c9a72b0e-63de-45bf-95a9-b4b58f6dfb8a" class="">02 - Downloads:</h1><ul id="b734f7ac-0525-4ed2-9771-2e165bb274f7" class="bulleted-list"><li style="list-style-type:disc"><a href="https://github.com/jvitkauskas/Altera-Cyclone-IV-board-V3.0">https://github.com/jvitkauskas/Altera-Cyclone-IV-board-V3.0</a></li></ul><ul id="74141598-1022-464e-bd9a-680a3e33846b" class="bulleted-list"><li style="list-style-type:disc">Altera Cyclone IV Development board pin information:
+<a href="https://github.com/jvitkauskas/Altera-Cyclone-IV-board-V3.0/tree/master/Hardware%20documentation">Altera-Cyclone-IV-board-V3.0/Hardware documentation at master · jvitkauskas/Altera-Cyclone-IV-board-V3.0 (github.com)</a></li></ul><ul id="5c6c9596-0916-44b0-847f-df1a79c91d78" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.intel.com/content/www/us/en/software-kit/684216/intel-quartus-prime-lite-edition-design-software-version-21-1-for-windows.html">https://www.intel.com/content/www/us/en/software-kit/684216/intel-quartus-prime-lite-edition-design-software-version-21-1-for-windows.html</a>?</li></ul><h1 id="fdecd173-2019-4139-bfd2-ea324e0c04f2" class="">03 - Preparing Developing Environment:</h1><h2 id="d0642d8f-166e-40a6-b231-ceb06545e5d2" class="">Step1: Installation:</h2><ul id="05c76979-d9eb-4952-ad63-8c08a295d6aa" class="bulleted-list"><li style="list-style-type:disc">Download &amp; install the appropriate software applications from the following link:
+<a href="https://www.intel.com/content/www/us/en/software-kit/684216/intel-quartus-prime-lite-edition-design-software-version-21-1-for-windows.html?">Intel® Quartus® Prime Lite Edition Design Software Version 21.1 for Windows</a></li></ul><ul id="8a710989-a574-49b5-ae75-d790386f4a43" class="bulleted-list"><li style="list-style-type:disc">You can follow the steps in this video for download and installation:
+<a href="https://www.youtube.com/watch?v=JSis_UDN9oI">Downloand and Install Quartus Prime Lite 20.1 on Windows 10 - YouTube</a></li></ul><ul id="653a4435-1198-4f8d-889b-b91b14f70ae2" class="bulleted-list"><li style="list-style-type:disc">Make sure to download these files:</li></ul><ul id="18beee3a-b1ed-4f2b-bd42-078faf0ab85b" class="bulleted-list"><li style="list-style-type:disc">Make sure to put all downloaded files in the same directory then run the <code>QuartusLiteSetup</code> file<figure id="52531fb6-f080-4049-98c8-046aac341376" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%202.png"><img style="width:741px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%202.png"/></a></figure></li></ul><ul id="c19600a3-265b-4b16-8c1e-3cdee21d24d7" class="bulleted-list"><li style="list-style-type:disc">To install <code>QuartusLiteSetup</code>, <code>QuartusProgrammerSetup</code> and <code>Questa - Intel FPGA Starter Edition</code>, select the required installations as in the following image.<figure id="ffec4975-4bf6-410b-aad9-4062b452a76c" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%203.png"><img style="width:682px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%203.png"/></a></figure></li></ul><ul id="9270ee6a-1b48-4b37-b740-13c2e574ce31" class="bulleted-list"><li style="list-style-type:disc">After installation finishes, select <code>Run Blaster II programmer driver installation</code> to install drivers required by the Blaster II programmer.</li></ul><hr id="ca49d381-de53-4c7e-9ca3-633798c43b80"/><h2 id="0ded88f2-a56c-4c62-a55b-d9117faffba3" class="">Step2: </h2><ul id="a4113a21-e625-4549-b83d-86df6601e725" class="bulleted-list"><li style="list-style-type:disc">After successfully installation and installing the drivers, connect the USB Blaster and follow the steps in this wiki to install the compatible drivers:<p id="8b1ad768-4f9d-4869-8343-65db293105ed" class=""><a href="https://www.terasic.com.tw/wiki/Altera_USB_Blaster_Driver_Installation_Instructions">Altera USB Blaster Driver Installation Instructions - Terasic Wiki</a></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="243fdd5a-6f21-4177-afbc-4e28a573dfc2"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>Warning:</strong> Do not insert to remove the USB Blaster ribbon cable while the device is powered on. There was an included warning that the board would likely be damaged. I did not test this.</div></figure><h3 id="5da2ec7b-be9d-4ca7-82af-42fbc8dbe17b" class="">Steps summary:</h3><p id="987ca844-e064-46cc-bdd4-9700ea97be22" class="">Source: <a href="https://gojimmypi.blogspot.com/2018/02/first-fpga-test-drive-with-altera.html">GoJimmyPi: First FPGA Test Drive with Altera Cyclone IV</a></p><ol type="1" id="42320fe4-e15c-4384-88f6-3bef0b0895fc" class="numbered-list" start="1"><li>Plug the USB-Blaster II cable into your PC.</li></ol><ol type="1" id="cd6d9ca3-8898-40e8-a7f1-07c21efaaaca" class="numbered-list" start="2"><li>Open the <strong>Device Manager</strong>, and right-click on the <strong>Unknown device</strong> under the <strong>Other devices</strong> branch.<figure id="1e9c3a09-ccf7-45bb-bb33-96d38ce9714e" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%204.png"><img style="width:239px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%204.png"/></a></figure></li></ol><ol type="1" id="1e96bf33-a31b-4361-b483-165d03eafd9e" class="numbered-list" start="3"><li>Select <strong>Update Driver Software</strong>.</li></ol><ol type="1" id="ba1b4c11-6c62-4ae0-9b86-d16fadc7b5e6" class="numbered-list" start="4"><li>Select <strong>Browse my computer for driver software</strong>.</li></ol><ol type="1" id="9e6a8ba3-f712-4dd8-bdc3-d60e67d424a6" class="numbered-list" start="5"><li>Enter the location of the Quartus Prime software USB-Blaster II driver files directory (<em>&lt;</em><em><strong>Path to Quartus Prime installation&gt;\drivers\usb-blaster-ii</strong></em>) in the <strong>Search for driver software in this location</strong> field.</li></ol><ol type="1" id="3c287c89-cd19-4759-b54d-ba842dd1fcb8" class="numbered-list" start="6"><li>Click <strong>Next</strong>.</li></ol><ol type="1" id="d1e7d505-ce50-4c3f-bda0-d1644b71a6af" class="numbered-list" start="7"><li>Click <strong>Install</strong> in the <strong>Would you like to install this device software?</strong> Windows security dialog box.</li></ol><ol type="1" id="132e18b6-ba0f-411f-89bc-4943b3e5d7d2" class="numbered-list" start="8"><li>Close the <strong>Update Driver Software - Altera USB-Blaster II (Unconfigured)</strong> successful installation notification. The Device Manager now shows a new branch called <strong>JTAG cables</strong> with an <strong>Altera USB-Blaster II (Unconfigured)</strong> node.</li></ol><ol type="1" id="b859de08-d7e2-4840-8e45-177d378aa068" class="numbered-list" start="9"><li>Open the Quartus Prime Programmer. Within a few seconds, the <strong>JTAG cables</strong> branch displays two nodes: <strong>Altera USB-Blaster II (JTAG interface</strong>) and <strong>Altera-USB Blaster II (System Console interface)</strong>.</li></ol></li></ul><hr id="3ade6ad0-e32a-44b1-96d8-76774e282c01"/><h1 id="5346b04b-6451-43eb-af1c-8b2749d26294" class="">04 - Running your first test project:</h1><h2 id="9fd4bf12-83a1-4400-b3ea-900044caae86" class="">Step1: Create a new project:</h2><p id="91ebf5dc-efb2-4b03-834b-ec975d0c24a1" class="">Source: <a href="https://www.intel.com/content/www/us/en/developer/articles/training/intel-cyclone-10-lp-fpga-board-how-to-program-your-first-fpga.html">Intel® Cyclone® 10 LP FPGA Board - How to Program Your First FPGA</a></p><ul id="9efd009f-7e56-46a0-ae7a-1a79d78b3e05" class="bulleted-list"><li style="list-style-type:disc">Run the Quartus Prime Lite Edition program.</li></ul><ul id="08f5a08d-a023-4363-b9af-3cef0f74a4e2" class="bulleted-list"><li style="list-style-type:disc">Open <code>File</code> menu and select <code>New Project Wizard</code>.<figure id="346c060e-08ee-4cac-9912-e94b812d6f1c" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%205.png"><img style="width:1359px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%205.png"/></a></figure></li></ul><ul id="a2083dcd-eab4-4322-96d4-a576b091a523" class="bulleted-list"><li style="list-style-type:disc">You may need to press Next to move to the next window.</li></ul><ul id="43443f7d-ff1c-4be4-9db7-58339815b959" class="bulleted-list"><li style="list-style-type:disc">Enter the directory for the project, a project name.<figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6694c74d-8d8f-4c07-b0e7-72c8da321358"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red">Important:</mark> You must choose a read/write directory, such as Documents directory.</div></figure><figure id="e4bb969a-a318-462f-8f25-772e3dc8176e" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%206.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%206.png"/></a></figure></li></ul><ul id="e463baeb-10be-4c92-b5cb-f12be5926750" class="bulleted-list"><li style="list-style-type:disc">Press Next and select am Empty Project, then press Next.<figure id="6d9e6769-53c9-4430-a8f8-a638581ad5cc" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%207.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%207.png"/></a></figure></li></ul><ul id="e7ac3f25-31fc-454e-8e10-1ef0fc09e531" class="bulleted-list"><li style="list-style-type:disc">We don’t need to add any files right now, so, we bypass the next window by pressing Next.<figure id="988912c3-4009-409e-a4d1-d975df4871f7" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%208.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%208.png"/></a></figure></li></ul><ul id="1d1ab2bb-42bd-4eee-be64-052090407e4f" class="bulleted-list"><li style="list-style-type:disc">Now, we need to select the device that we will use, our main chip is the ALTERA FPGA CycloneIV series <code>EP4CE6E22C8N</code> the fourth generation. So, select the right chip and press Next.<figure id="67af4656-a744-4b9f-9c1c-1028985d9178" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%209.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%209.png"/></a></figure></li></ul><ul id="f8603d21-7151-4be0-abc3-936bd8c913b1" class="bulleted-list"><li style="list-style-type:disc">We won’t change default tool settings, so, press Next. Or, we can select the desired simulation tool, choose <code>QuestaSim</code> tool with <code>VHDL</code> format.<figure id="cce26956-cf64-4ab9-bd81-15c4b8d733f3" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2010.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2010.png"/></a></figure><figure id="7bf31683-08e1-42ff-beaf-6b5ff0dd45ac" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2011.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2011.png"/></a></figure></li></ul><ul id="4edfe719-6e21-4bb6-b918-b744d51b78d1" class="bulleted-list"><li style="list-style-type:disc">A summary should be shown.<figure id="c66dd402-6574-44b8-8107-5e2ea505003f" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2012.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2012.png"/></a></figure><figure id="7f7a27d8-0eaf-4ed6-8311-7ba56d12eb3c" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2013.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2013.png"/></a></figure></li></ul><ul id="6169c98b-1b96-4739-ba98-0798e3a9e825" class="bulleted-list"><li style="list-style-type:disc">Now, press the Finish button to finish creating our new project.</li></ul><ul id="649cb425-a39e-4e16-83b8-94699a5ac8a2" class="bulleted-list"><li style="list-style-type:disc">Our project should be shown in the Project Navigator<figure id="4c5c8a63-b792-4643-9b5a-db194f19f2f0" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2014.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2014.png"/></a></figure></li></ul><h2 id="181080e8-f49b-4dc0-ac17-e5f415301768" class="">Step2: Adding a new VHDL File to your project:</h2><ul id="ada3b6e3-009c-4451-8d11-ff285ef6a912" class="bulleted-list"><li style="list-style-type:disc">From <code>File</code> menu, choose <code>New</code>.<figure id="a669e0fe-6b56-4706-adaa-4e4191921f77" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2015.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2015.png"/></a></figure></li></ul><ul id="6c1c7204-f813-4c32-89b0-8ae3b88ca428" class="bulleted-list"><li style="list-style-type:disc">In the <code>New</code> dialog window, under <code>Design Files</code>, select <code>VHDL File</code> and press <code>OK</code>.</li></ul><figure id="8bca47f9-097b-47fb-b826-ae44670cde29" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2016.png"><img style="width:280px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2016.png"/></a></figure><h2 id="65364102-9f7a-49c8-918b-1b7616a79b0c" class="">Step3: Entering VHDL code:</h2><ul id="c918dd36-d7d4-4a5d-a75b-16bcf568b52d" class="bulleted-list"><li style="list-style-type:disc">Now, enter your code into the text editor area.<figure id="82e66f3d-9ee0-430a-91f3-13894f1711ca" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2017.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2017.png"/></a></figure><ul id="974ca1cb-ceb3-4c5f-833e-98dd3febc15f" class="bulleted-list"><li style="list-style-type:circle">Sample Code:<pre id="1425e528-b700-474e-83fd-5f81396f9d97" class="code"><code>LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+ENTITY lab_00 is
+	PORT (
+	x1, x2 : in STD_LOGIC;
+	f1, f2, f3, f4 : out STD_LOGIC
+	);
+END lab_00;
+
+ARCHITECTURE Behavioral of lab_00 is begin
+	f1 &lt;= NOT x1;
+	f2 &lt;= x1 AND x2;
+	f3 &lt;= x1 OR x2;
+	f4 &lt;= x1 XOR x2;
+END Behavioral;</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cd10146c-f8a2-4d0b-9f56-cd772a7feef7"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red"><strong>Important</strong></mark><mark class="highlight-red">:</mark> In VHDL, the <code>Entity</code> name <strong>must</strong> be the same as the project name, otherwise, you have to add the new entity as the top-level entity of the project [Tutorial to add the new entity as the top-level: <a href="https://www.youtube.com/watch?v=D_LoOJtBM3I">Intel Quartus Prime Tutorial Part 6 | Error Top-level design entity &quot;name&quot; is undefined - YouTube</a>]</div></figure></li></ul></li></ul><ul id="8a2ff10a-dac4-4fbe-b281-c05ac02f51b6" class="bulleted-list"><li style="list-style-type:disc">Then, save the file and name it.</li></ul><h2 id="d4888df6-e4dc-40c4-bb3f-78c8414afa61" class="">Step4: Pin Assignment &amp; Compiling:</h2><ul id="20107a3d-6de5-45de-bb5f-599311a7e310" class="bulleted-list"><li style="list-style-type:disc">To compile the project, open the menu <code>Processing</code> and press <code>Start Compilation</code>.<figure id="44899f29-9f1b-4c9b-967d-d2e977c71a69" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2018.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2018.png"/></a></figure><ul id="2b29e7ac-a5b9-4e96-b830-0da404dc8797" class="bulleted-list"><li style="list-style-type:circle">While the pins are not actually assigned, there will be a compiler warning, telling that no pins are assigned for input/output pins used.<figure id="0c43c843-8d75-4fce-ba7f-3e02359890b9" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2019.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2019.png"/></a></figure></li></ul></li></ul><ul id="67375467-8530-4105-9296-af9eb5e67928" class="bulleted-list"><li style="list-style-type:disc">Click on <code>Assignments</code> menu and select <code>Pin Planner</code>.<figure id="0a7f5a6c-0baa-4d2a-a13f-db3c62d63158" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2020.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2020.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5ff56c55-a775-4d1f-b768-83563b7196eb"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red"><strong>Important</strong></mark><mark class="highlight-red">:</mark> we must have explicitly assigned our chip part number, otherwise this feature is not available</div></figure></li></ul><ul id="6a0d4913-62cd-4885-b19e-60cd7c57d7be" class="bulleted-list"><li style="list-style-type:disc">Double-click in the Location column in front of each input/output pin, a drop-down list will appear.<figure id="618c1d68-e76a-4e81-a39e-9afdbd916c73" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2021.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2021.png"/></a></figure><figure id="32da3c55-f3fe-4282-b3f7-dab7ff699c7d" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2022.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2022.png"/></a></figure></li></ul><ul id="f5606a5c-ed9b-4eb3-8abe-4c600f06069d" class="bulleted-list"><li style="list-style-type:disc">We need to assign the pins to push buttons and LED as shown in the schematic:<ul id="a85e312a-0da8-48f4-8be4-8e79fcd812fc" class="bulleted-list"><li style="list-style-type:circle">Altera Cyclone IV Development board pin allocation table:<figure id="cc646526-8c9a-4ebd-b6b9-ef425460fd4c" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2023.png"><img style="width:711px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2023.png"/></a></figure></li></ul><figure id="213568ae-62f5-4d61-bbb4-5ab581611b18" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2024.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2024.png"/></a></figure></li></ul><ul id="cb65a8f3-7655-4ef7-8d30-4f0c90c3aeed" class="bulleted-list"><li style="list-style-type:disc">Now, close the Pin Planner and compile again.<figure id="11e00dc2-abab-49a2-a2c6-8cc1df81331b" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2025.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2025.png"/></a></figure></li></ul><h2 id="9a4df93f-6a7c-4ebc-9695-a87c2a7820cd" class="">Step5: V<strong>isual verification of the design</strong>:</h2><ul id="c2e61f04-2e9f-4b71-a257-0190610a15cc" class="bulleted-list"><li style="list-style-type:disc">We can show the circuit implemented by our VHDL code using RTL view. From <code>Tools</code> menu, open <code>Netlist Viewers</code> and select <code>RTL viewer</code>.<figure id="89066a2e-0267-4ec2-b11a-90149a64742c" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2026.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2026.png"/></a></figure></li></ul><ul id="4d2d7369-20d2-43e5-9a63-e0ccfda57b93" class="bulleted-list"><li style="list-style-type:disc">The circuit gates, input/output pins and connections will be displayed as following:<figure id="0acc496f-d38a-4ad7-9cbe-4a47ff4b1740" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2027.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2027.png"/></a></figure></li></ul><h2 id="3b2d53c1-bfc2-465f-bcaa-dc0e5949a675" class="">Step6: Uploading the compiled code to the FPGA hardware:</h2><ul id="5eedd130-5bce-4a09-a5f2-7d054f5dedb6" class="bulleted-list"><li style="list-style-type:disc">Finally, we&#x27;re ready to send the FPGA code to our device. To Program the FPGA kit: Click <code>Tools</code> menu then select <code>Programmer</code>.</li></ul><figure id="4ed26100-6d77-419f-83f8-d08d88132761" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2028.png"><img style="width:1366px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2028.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c5d83071-20a8-4193-994a-0d69306e3a50"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>Hint:</strong> If the currently selected hardware says &quot;No Hardware&quot;, click the &quot;Hardware Setup&quot; button (make sure your device is plugged in, and drivers installed)</div></figure><ul id="3cc872ba-3878-4520-8b8e-02367b71114b" class="bulleted-list"><li style="list-style-type:disc">To send the FPGA code to the device, select &quot;<code>Processing</code> - <code>Start</code>&quot; (or simply press the &quot;Start Button&quot;).<figure id="22a885a7-5d14-482d-8c85-2b2a9753fbb6" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2029.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2029.png"/></a></figure></li></ul><ul id="20f6a5f1-ef5a-4081-acad-181b7dc2f6f6" class="bulleted-list"><li style="list-style-type:disc">If successful, there will be an indication in the progress box.<figure id="c75f28b8-5a50-4701-98ce-e513f419a1f5" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2030.png"><img style="width:802px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2030.png"/></a></figure><figure id="7ea6d987-3877-43c3-9ab8-cba03dc200a2" class="image"><a href="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2031.png"><img style="width:640px" src="03%20Environment%20Setup%20&amp;%20Testing%2073a1700d787c44acb59f769f307f0050/Untitled%2031.png"/></a></figure></li></ul><ul id="61f47405-3f75-4362-ac43-c52bba766c71" class="bulleted-list"><li style="list-style-type:disc">That&#x27;s it! There&#x27;s now 4 gate programmed in the FPGA. Press S1 or S2 to have the corresponding LEDs ON or OFF verifying the 4 gates.</li></ul><h2 id="23141f86-2b9e-4a92-85eb-a17bf56be4fc" class="">Important Notes:</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="4588e674-2f53-4d40-bd66-e68004fe7ea7"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>Important:
+</strong>1. Output LEDs are active low, that on HIGH output, LED is OFF and on LOW output the LED is ON. To solve this and provide better user-friendly output, we can invert output before assigning to the output pin.
+2. Input push buttons are active LOW, having pull-up resistors. Meaning that, on no press, the button inputs HIGH and on press, the button inputs LOW.</div></figure><p id="f9118143-3161-4144-8900-7f2df8a8c1be" class="">So, we can use the following code instead, to provide the same behavior for the desired gates in a user-friendly manner.</p><pre id="df08f7ab-feb2-43e0-9dfa-a75eba20c3d9" class="code"><code>LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+ENTITY lab_00 is
+PORT (
+		x1, x2 : in STD_LOGIC;
+		f1, f2, f3, f4 : out STD_LOGIC
+	);
+END lab_00;
+
+ARCHITECTURE Behavioral of lab_00 is begin
+	f1 &lt;= NOT x1;
+	f2 &lt;= NOT(NOT x1 AND NOT x2);
+	f3 &lt;= NOT(NOT x1 OR  NOT x2);
+	f4 &lt;= NOT(NOT x1 XOR NOT x2);
+END Behavioral;</code></pre><hr id="516f15b0-c6d9-46c3-8ca1-a537b91c52eb"/><h1 id="1252f630-b1ac-4568-8840-33560480f130" class="">05 - Sources:</h1><ul id="cbb48a64-9176-4c94-9928-03f84eb627fa" class="bulleted-list"><li style="list-style-type:disc"><a href="https://gojimmypi.blogspot.com/2018/02/first-fpga-test-drive-with-altera.html">GoJimmyPi: First FPGA Test Drive with Altera Cyclone IV</a></li></ul><ul id="560975da-0379-4b7b-92e4-a536e9d7864a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.intel.com/content/www/us/en/developer/articles/training/intel-cyclone-10-lp-fpga-board-how-to-program-your-first-fpga.html">https://www.intel.com/content/www/us/en/developer/articles/training/intel-cyclone-10-lp-fpga-board-how-to-program-your-first-fpga.html</a></li></ul></div></article></body></html>

@@ -1,0 +1,671 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>01. Realizing Half and Full Adders</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e1f3aa2f-511e-4744-9169-31057c9d2d50" class="page sans"><header><h1 class="page-title">01. Realizing Half and Full Adders</h1></header><div class="page-body"><h1 id="44821ffd-428d-4fa5-bd52-ea595468f8a7" class="">01 - The Objective</h1><p id="113b0a14-83ee-4e17-bf88-c705b7059e42" class="">In this tutorial, we will learn how to design and implement half and full adders using different logic gates. The theory is simple, Binary addition is similar to that of decimal addition. Add the first digits of a number and if the count exceeds binary 2, then carry ‘1’ to the next row.</p><figure id="131182e0-362a-4226-9e27-2afd2f1acaef" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Simple-Binary-Addition.jpg"><img style="width:500px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Simple-Binary-Addition.jpg"/></a></figure><h1 id="618bc4f7-4ce9-4607-a478-8a813a751c04" class="">02 - The Design</h1><h2 id="8460ff13-c3e4-4670-ba8c-58bffbc4ac1f" class="">02.A. The Half Adders</h2><p id="1a9059c5-35be-4f98-a3e1-28571d00f097" class="">In order to design any combinational logic circuit, we need to write down its truth table. In our case, we will design a half adder that adds two bits together and outputs a sum value and a carry value.</p><figure id="305f7cbe-4889-4ab5-9a90-4276c09d48a6" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.28.31_AM.png"><img style="width:432px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.28.31_AM.png"/></a></figure><table id="0ab4827b-948f-4215-8e80-1acd031ae532" class="simple-table"><thead class="simple-table-header"><tr id="11633120-0f2a-4915-96e8-c6a187c15401"><th id="Odeb" class="simple-table-header-color simple-table-header" style="width:62px">Input</th><th id="GURc" class="simple-table-header-color simple-table-header" style="width:44px"></th><th id="fKP{" class="simple-table-header-color simple-table-header" style="width:68px">Output</th><th id="[Z@T" class="simple-table-header-color simple-table-header" style="width:63px"></th></tr></thead><tbody><tr id="2c7348e5-22ea-4b28-b28f-fdfcd9a8438e"><td id="Odeb" class="" style="width:62px">A</td><td id="GURc" class="" style="width:44px">B</td><td id="fKP{" class="" style="width:68px">Sum</td><td id="[Z@T" class="" style="width:63px">Carry</td></tr><tr id="c76cb409-cc59-4368-b24b-226056d44298"><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">0</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="01871f26-f992-41c6-97b4-e4247406cad6"><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="d5295eca-34f0-4398-ab89-b29aaf675119"><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="da3463fa-b697-41d3-a5af-699bc19c380f"><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">1</td></tr></tbody></table><figure id="27c44745-1d4c-4341-bb61-6b17995f8e6f" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/half-adder-circuit.png"><img style="width:336px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/half-adder-circuit.png"/></a></figure><p id="7d183698-5bf7-4087-ac4e-4962128e8890" class="">If you observe the truth table, the sum output of the binary addition carried out above is similar to that of an Ex-OR operation, while the carry output is similar to that of an AND operation. Therefore, the half adder can be implemented using XOR and AND gates.</p><h2 id="cbecab10-eeda-4306-9c9e-27d1f17b4935" class="">02.B. The Full Adder</h2><p id="e288d8d1-896d-47a3-89e1-47d07e825d41" class="">This is halfway through when implementing an adding circuit since in any binary adding operation we need to consider the carry-in from the previous bitwise addition. Therefore, the full adder extends the half adder to include a carry-in bit. So we need to extend our truth table to include this bit:</p><figure id="873a4509-f7da-4661-a313-a34929473a88" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.39.40_AM.png"><img style="width:336px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.39.40_AM.png"/></a></figure><p id="9c334e98-c02a-4294-8448-f61751ae9ddf" class="">From the truth table, we can express the sum and carry using:</p><figure id="8694263b-1b5b-4c38-89ba-2f18501b793f" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>s</mi><mi>u</mi><mi>m</mi><mo>=</mo><mover accent="true"><mi>A</mi><mo>ˉ</mo></mover><mi mathvariant="normal">.</mi><mover accent="true"><mi>B</mi><mo>ˉ</mo></mover><mi mathvariant="normal">.</mi><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>+</mo><mover accent="true"><mi>A</mi><mo>ˉ</mo></mover><mi mathvariant="normal">.</mi><mi>B</mi><mi mathvariant="normal">.</mi><mover accent="true"><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>ˉ</mo></mover><mo>+</mo><mi>A</mi><mi mathvariant="normal">.</mi><mover accent="true"><mi>B</mi><mo>ˉ</mo></mover><mi mathvariant="normal">.</mi><mover accent="true"><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>ˉ</mo></mover><mo>+</mo><mi>A</mi><mi mathvariant="normal">.</mi><mi>B</mi><mi mathvariant="normal">.</mi><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">sum=\bar{A}.\bar{B}.C_{in}+\bar{A}.B.\bar{C_{in}}+A.\bar{B}.\bar{C_{in}}+A.B.C_{in}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.9701099999999999em;vertical-align:-0.15em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">A</span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.11110999999999999em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mord">.</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.16666em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mord">.</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.9701099999999999em;vertical-align:-0.15em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">A</span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.11110999999999999em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">.</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.9701099999999999em;vertical-align:-0.15em;"></span><span class="mord mathnormal">A</span><span class="mord">.</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.16666em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mord">.</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˉ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord mathnormal">A</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">.</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure><figure id="1b7ef08a-f61b-440d-9453-2a14560f1d94" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>c</mi><mo>=</mo><mi>A</mi><mi mathvariant="normal">.</mi><mi>B</mi><mo>+</mo><mi>A</mi><mi mathvariant="normal">.</mi><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>+</mo><mi>B</mi><mi mathvariant="normal">.</mi><msub><mi>C</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">c=A.B+A.C_{in}+B.C_{in}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">A</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord mathnormal">A</span><span class="mord">.</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord">.</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">in</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure><table id="debaaf64-111b-42db-84ca-fe6e91ee075e" class="simple-table"><thead class="simple-table-header"><tr id="643346d8-fd1c-48db-9a57-4aaa110387df"><th id="Qu{B" class="simple-table-header-color simple-table-header" style="width:76px">Input</th><th id="Odeb" class="simple-table-header-color simple-table-header" style="width:62px"></th><th id="GURc" class="simple-table-header-color simple-table-header" style="width:44px"></th><th id="fKP{" class="simple-table-header-color simple-table-header" style="width:68px">Output</th><th id="[Z@T" class="simple-table-header-color simple-table-header" style="width:63px"></th></tr></thead><tbody><tr id="3e933965-ceea-485f-8ccd-3a36be661884"><td id="Qu{B" class="" style="width:76px">Carry-in</td><td id="Odeb" class="" style="width:62px">A</td><td id="GURc" class="" style="width:44px">B</td><td id="fKP{" class="" style="width:68px">Sum</td><td id="[Z@T" class="" style="width:63px">Carry</td></tr><tr id="de4a7a15-aaf1-4768-a5eb-df89c0928a6b"><td id="Qu{B" class="" style="width:76px">0</td><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">0</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="211bd0bb-439c-4daf-89ed-1c942e53798f"><td id="Qu{B" class="" style="width:76px">0</td><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="20bb604d-6002-4c6e-a2bc-546e9deea45b"><td id="Qu{B" class="" style="width:76px">0</td><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="16a3f6ed-ac16-45ca-87b0-92af7e5eca37"><td id="Qu{B" class="" style="width:76px">0</td><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">1</td></tr><tr id="acfdd11d-80cb-4bfe-8636-4c399b12dfc8"><td id="Qu{B" class="" style="width:76px">1</td><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">0</td></tr><tr id="a3e2dc93-d4d8-42ca-b06e-fba7adbc0a0a"><td id="Qu{B" class="" style="width:76px">1</td><td id="Odeb" class="" style="width:62px">0</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">0</td><td id="[Z@T" class="" style="width:63px">1</td></tr><tr id="b5fdc036-b327-4121-8897-13a1ac3c903a"><td id="Qu{B" class="" style="width:76px">1</td><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">0</td><td id="fKP{" class="" style="width:68px">0</td><td id="[Z@T" class="" style="width:63px">1</td></tr><tr id="8b4461ea-a75e-4baf-a454-47a2d12208b5"><td id="Qu{B" class="" style="width:76px">1</td><td id="Odeb" class="" style="width:62px">1</td><td id="GURc" class="" style="width:44px">1</td><td id="fKP{" class="" style="width:68px">1</td><td id="[Z@T" class="" style="width:63px">1</td></tr></tbody></table><p id="38e41ee5-7c88-4e93-8fbd-193064be24fd" class="">At this point you can realize the full adder in two ways:</p><h3 id="1e15d893-76ea-4845-9321-d6251d69ac61" class="">02.B.I. Traditional way</h3><p id="a4f0da0b-372d-4f80-af35-7dc3db668c32" class="">You can realize the <code>sum</code> and <code>carry</code> boolean functions as shown:</p><figure id="86f971d9-2bb4-480f-a394-868f5f4d9a16" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.45.14_AM.png"><img style="width:1184px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.45.14_AM.png"/></a></figure><figure id="ccdb453b-a6ee-4b70-9855-8ce4ed73e20c" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.45.32_AM.png"><img style="width:1200px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.45.32_AM.png"/></a></figure><h3 id="c72eae8a-1455-425b-b16b-b94eaefd2407" class="">02.B.II. Using half adders</h3><p id="08addd72-708c-4229-b02d-5b6b55b64d2d" class="">On the other hand, you can cascade two half adders to have a 1-bit full adder as shown:</p><figure id="d51de7ee-0df2-42d8-a40b-a78cbd8587b0" class="image"><a href="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.52.41_AM.png"><img style="width:3050px" src="01%20Realizing%20Half%20and%20Full%20Adders%20e1f3aa2f511e4744916931057c9d2d50/Screen_Shot_2022-02-16_at_11.52.41_AM.png"/></a></figure><h1 id="a7f9a7f2-e57c-4346-9aa5-667ccace4ecd" class="">03. Classwork</h1><p id="64060c28-cf07-4929-aa0b-e24954c22f8b" class="">In this tutorial, we are asking you to :</p><ol type="1" id="43fdd143-6878-4e94-ab05-41511671ffeb" class="numbered-list" start="1"><li>Implement a 2-bit full adder using half-adders.</li></ol><ol type="1" id="2dd5576a-737e-49ff-9048-1e777cd433cf" class="numbered-list" start="2"><li>Use the full adder IC to verify your connection.</li></ol><p id="fc0330c6-c70f-40a7-8f2b-09ab3cf33644" class="">
+</p></div></article></body></html>
