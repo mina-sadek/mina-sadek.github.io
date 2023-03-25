@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>06. Look-up Tables</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>07- 3-bit 4-to-1 MUX</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -666,30 +666,90 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="3ef31235-9179-43a6-9b2d-a8d56d215914" class="page sans"><header><h1 class="page-title">06. Look-up Tables</h1></header><div class="page-body"><h1 id="a163ab7a-4dfa-4873-a155-873877625e60" class="">01 - Objective</h1><p id="25ca1147-c238-4121-8646-f5b72536af87" class="">In this tutorial, we will extend your VHDL knowledge to include how to create lookup tables and we are going to use it to synthesize a multiplexer.</p><h1 id="d083b820-1cca-4ed0-8428-8323eaf88f2f" class="">02 - Logic Gates Implementation</h1><p id="9e3e497f-36f6-454e-be79-fc40615207f5" class="">The simplest multiplexer allows you to select between two inputs using a select line as shown in this figure: </p><div id="fcc75e47-3c82-4cd0-b774-ba9ea1a5b19a" class="column-list"><div id="9a079f98-bc91-4334-b384-151357567b97" style="width:31.25%" class="column"><figure id="d839a82d-de76-47ed-b86b-6dfdd1cb16fe" class="image"><a href="06%20Look-up%20Tables%203ef31235917943a69b2da8d56d215914/Multiplexer.png"><img style="width:300px" src="06%20Look-up%20Tables%203ef31235917943a69b2da8d56d215914/Multiplexer.png"/></a></figure></div><div id="2f00b0f9-6633-40d7-85a2-b9c1c7140d65" style="width:68.75%" class="column"><p id="d4875c01-8281-45e9-b99d-ff41f23dee3d" class=""> Therefore the <code>out</code> boolean equation can be</p><figure id="e5771aab-978c-4c91-bf28-3dc45fc3ebf6" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mrow><mi>S</mi><mi>E</mi><mi>L</mi></mrow><mo>ˉ</mo></mover><mi mathvariant="normal">.</mi><mi>A</mi><mo>+</mo><mi>S</mi><mi>E</mi><mi>L</mi><mi mathvariant="normal">.</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">\bar{SEL}.A + SEL.B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9034399999999999em;vertical-align:-0.08333em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8201099999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">SE</span><span class="mord mathnormal">L</span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˉ</span></span></span></span></span></span></span><span class="mord">.</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">SE</span><span class="mord mathnormal">L</span><span class="mord">.</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span></span></div></figure><p id="3dc43957-ade2-498e-b862-82486a72967a" class="">which means this is a conditional signal assignment based on the select line, for VHDL conditional signals are written as:</p><pre id="1bef628b-891c-41df-a1a9-d3d679dcb813" class="code"><code>signal_name &lt;= expression_1 when condition_1
-               else expression_2 when condition_2
-               [else expression_N];</code></pre></div></div><p id="a4f294f2-1db6-4f33-9374-fdb9223ed379" class="">Therefore, let us create a 4 line input multiplexer. First, we need to include our standard libraries</p><pre id="6a1e6ed0-3c70-46ce-9d9d-6cde421eb1f9" class="code"><code>library ieee;
-use ieee.std_logic_1164.all;</code></pre><p id="cd91db2a-9bf4-461f-b27a-09a615a73882" class=""> Then define our <code>entity</code> ’s inputs and outputs:</p><pre id="65084608-1f21-4104-a975-f72073162032" class="code"><code>entity mux4 is
+</style></head><body><article id="85963eb9-c616-4c8f-847b-6819dca6c2a2" class="page sans"><header><h1 class="page-title">07- 3-bit 4-to-1 MUX</h1></header><div class="page-body"><p id="21e9b5bf-a1f8-4fb8-9e2c-9ccfd0977ca1" class="">This code defines an entity called <code>mux_4to1</code> with inputs <code>a0</code>, <code>a1</code>, <code>a2</code>, <code>a3</code>, and <code>sel</code>, and output <code>y</code>. The <code>sel</code> input selects which of the four inputs (<code>a0</code>, <code>a1</code>, <code>a2</code>, or <code>a3</code>) is passed through to the output <code>y</code>. The code uses a case statement to select the correct input based on the value of <code>sel</code>. The <code>others =&gt; &#x27;X&#x27;</code> statement in the case statement assigns an undefined value to <code>y</code> if <code>sel</code> is not one of the defined values.</p><h1 id="aaab56e0-8c01-4c32-933f-a79683b781b1" class="">01. VHDL code for the 3-bit 4 to 1 multiplexer:</h1><pre id="9bda36bb-afcd-44cc-b6a4-7df7ec8f9947" class="code"><code>library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux_3bit_4to1 is
     port (
-        i   : in  std_logic_vector(3 downto 0);
-        sel : in  std_logic_vector(1 downto 0);
-        q   : out std_logic
+        a0, a1, a2, a3 : in std_logic_vector(2 downto 0);
+        sel : in std_logic_vector(1 downto 0);
+        y : out std_logic_vector(2 downto 0)
     );
 end entity;
-</code></pre><p id="324a4a10-5920-47c9-a2b1-aeb79d680d31" class="">And finally, describe the behavior</p><pre id="3fdc565b-3119-466e-847b-4d72762df6a1" class="code"><code>architecture conditional_assignment of mux4 is
+
+architecture behavioral of mux_3bit_4to1 is
 begin
-    -- Conditional signal assigment expression
-    q &lt;= i(0) when sel = &quot;00&quot; else
-         i(1) when sel = &quot;01&quot; else
-         i(2) when sel = &quot;10&quot; else
-         i(3); --  sel = &quot;11&quot;
-end architecture;</code></pre><p id="bebfa09d-de01-45ed-96ae-8f1911a04379" class="">Note you can replace the traditional assignment with select assignment </p><pre id="c981710b-4721-4f8c-b118-cd2eb7f2112a" class="code"><code>architecture conditional_assignment of mux4 is
+    process (a0, a1, a2, a3, sel)
+    begin
+        case sel is
+            when &quot;00&quot; =&gt;
+                y &lt;= a0;
+            when &quot;01&quot; =&gt;
+                y &lt;= a1;
+            when &quot;10&quot; =&gt;
+                y &lt;= a2;
+            when others =&gt;
+                y &lt;= a3;
+        end case;
+    end process;
+end architecture;</code></pre><h1 id="53f91d47-97b5-4730-aac5-b48647e5cc5b" class="">02. Sample Testbench:</h1><pre id="09c91767-adeb-469d-9a12-cf5fd309eca3" class="code"><code>library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux_3bit_4to1_tb is
+end entity;
+
+architecture behavioral of mux_3bit_4to1_tb is
+    signal a0, a1, a2, a3, y : std_logic_vector(2 downto 0);
+    signal sel : std_logic_vector(1 downto 0);
 begin
-    -- Selected signal assignment expression
-    with sel select
-        q &lt;= i(0) when &quot;00&quot;,
-             i(1) when &quot;01&quot;,
-             i(2) when &quot;10&quot;,
-             i(3) when others;
-end architecture;</code></pre><h1 id="1351adac-9d02-495a-82a7-692f21282ed4" class="">03 - Simulation Process</h1><h1 id="dbaf0bf5-89e1-4b22-b5b8-708cfcdb8857" class="">04 - Flashing Process</h1><p id="7f64fb0d-a4e4-47c5-a821-66959b58b82d" class="">Please follow the same steps found in <code>lab-03</code> in order to synthesise and flash the FPGA.</p><p id="45f38a6f-7ae4-45f2-8a35-64e3ad11aa55" class="">
-</p></div></article></body></html>
+    uut: entity work.mux_3bit_4to1
+        port map (
+            a0 =&gt; a0,
+            a1 =&gt; a1,
+            a2 =&gt; a2,
+            a3 =&gt; a3,
+            sel =&gt; sel,
+            y =&gt; y
+        );
+
+    stimulus: process
+    begin
+        -- Test case 1: select input 0
+        sel &lt;= &quot;00&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;001&quot; report &quot;Test case 1 failed&quot; severity error;
+
+        -- Test case 2: select input 1
+        sel &lt;= &quot;01&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;010&quot; report &quot;Test case 2 failed&quot; severity error;
+
+        -- Test case 3: select input 2
+        sel &lt;= &quot;10&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;011&quot; report &quot;Test case 3 failed&quot; severity error;
+
+        -- Test case 4: select input 3
+        sel &lt;= &quot;11&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;100&quot; report &quot;Test case 4 failed&quot; severity error;
+
+        wait;
+    end process;
+end architecture;</code></pre><h1 id="babcaab7-b038-47bc-9248-1ea3d6e959a3" class="">03. Simulation Output</h1><figure id="3160af1b-7ae1-4176-a597-7d0c67af4b81" class="image"><a href="07-%203-bit%204-to-1%20MUX%2085963eb9c6164c8f847b6819dca6c2a2/Untitled.png"><img style="width:2653px" src="07-%203-bit%204-to-1%20MUX%2085963eb9c6164c8f847b6819dca6c2a2/Untitled.png"/></a></figure></div></article></body></html>
