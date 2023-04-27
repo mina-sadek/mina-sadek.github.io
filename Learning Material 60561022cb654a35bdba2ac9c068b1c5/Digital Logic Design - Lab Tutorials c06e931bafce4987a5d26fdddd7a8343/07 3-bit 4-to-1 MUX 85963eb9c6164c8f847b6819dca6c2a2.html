@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>08 - Processes [D-Flip-Flop]</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>07. 3-bit 4-to-1 MUX</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -641,7 +641,7 @@ blockquote {
 .select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
 .select-value-color-green { background-color: rgba(219, 237, 219, 1); }
 .select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
-.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
 .select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
 .select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
 .select-value-color-red { background-color: rgba(255, 226, 221, 1); }
@@ -666,31 +666,90 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="c781a8f5-8776-45ee-b65f-b1c0c8026466" class="page sans"><header><h1 class="page-title">08 - Processes [D-Flip-Flop]</h1></header><div class="page-body"><h1 id="2fe31770-671e-4fac-9310-93ac40474249" class="">01 - Objective</h1><p id="519498c3-b441-4a2f-8433-2675be90e280" class="">In this tutorial, we will teach you about modelling processes in VHDL, this will be explained using D-Flip-Flops.</p><h1 id="5ed6a940-fc5f-42b5-850e-58c5de1e48ad" class="">02 - Logic Gates Implementation</h1><figure id="44856186-2042-42db-a913-2ee0fb072b22" class="image"><a href="08%20-%20Processes%20%5BD-Flip-Flop%5D%20c781a8f5877645eeb65fb1c0c8026466/07%20-%20Processes%20(1)%20a5cdf2a201ba47c3a8f8f65e5840c09a/D-flip-flop-symbol.png"><img style="width:365px" src="08%20-%20Processes%20%5BD-Flip-Flop%5D%20c781a8f5877645eeb65fb1c0c8026466/07%20-%20Processes%20(1)%20a5cdf2a201ba47c3a8f8f65e5840c09a/D-flip-flop-symbol.png"/></a></figure><p id="0b76636f-f913-4cf5-a676-28377146aba0" class="">
-The expression in parentheses after the word process is called a sensitivity list, and the
-process executes whenever any signal in the sensitivity list changes. For example, if the
-process begins with process(<code>A</code>, <code>B</code>, <code>C</code>), then the process executes whenever any one of <code>A</code>, <code>B</code>,
-or <code>C</code> changes. When a process finishes executing, it goes back to the beginning and waits
-for a signal on the sensitivity list to change again.</p><p id="d23458fd-6d7d-4b44-9752-08071da80c4c" class="">A flip-flop can change the state either on the rising or on the falling edge of the clock input. This
-type of behaviour is modelled in VHDL by a process. A simple D flip-flop with a Q output that changes on the rising edge of CLK, can be modeled like:</p><pre id="e566310b-92f3-4b33-8027-83156ff62aa7" class="code"><code>process(CLK)
-begin
-	if CLK&#x27;event and CLK = &#x27;1&#x27;
-		then Q &lt;= D;
-	end if;
-end process;</code></pre><p id="eacfe18f-f9ff-441f-a4be-08890406e7fe" class="">Truth table:</p><table id="dcbbf270-84c5-4e42-9c46-367fdeb160d0" class="simple-table"><tbody></tbody></table><pre id="f1759380-8004-454b-9b9c-56990a0270ed" class="code"><code>library ieee;
+</style></head><body><article id="85963eb9-c616-4c8f-847b-6819dca6c2a2" class="page sans"><header><h1 class="page-title">07. 3-bit 4-to-1 MUX</h1></header><div class="page-body"><h1 id="21e9b5bf-a1f8-4fb8-9e2c-9ccfd0977ca1" class="">01 - Objective</h1><p id="ab42c984-d597-48aa-954a-f00f28790e8c" class="">In this tutorial, we will discuss implementing a 3-bit 4-to-1 MUX.</p><p id="f1765560-f64b-477d-93ba-96e1280ea5b1" class="">The following code defines an entity called <code>mux_4to1</code> with inputs <code>a0</code>, <code>a1</code>, <code>a2</code>, <code>a3</code>, and <code>sel</code>, and output <code>y</code>. The <code>sel</code> input selects which of the four inputs (<code>a0</code>, <code>a1</code>, <code>a2</code>, or <code>a3</code>) is passed through to the output <code>y</code>. The code uses a case statement to select the correct input based on the value of <code>sel</code>. The <code>others =&gt; &#x27;X&#x27;</code> statement in the case statement assigns an undefined value to <code>y</code> if <code>sel</code> is not one of the defined values.</p><h1 id="aaab56e0-8c01-4c32-933f-a79683b781b1" class="">02. VHDL code for the 3-bit 4 to 1 multiplexer:</h1><pre id="9bda36bb-afcd-44cc-b6a4-7df7ec8f9947" class="code"><code>library ieee;
 use ieee.std_logic_1164.all;
 
-entity D_flip_flop is
-    port (clk,Din : in std_logic;
-                 Q: out std_logic;
-             Qnot : out std_logic);
- end D_flip_flop;</code></pre><pre id="7b4424e8-b4bd-46fc-b0d6-8d5f740c36f0" class="code"><code>architecture Structure of D_flip_flop is
+entity mux_3bit_4to1 is
+    port (
+        a0, a1, a2, a3 : in std_logic_vector(2 downto 0);
+        sel : in std_logic_vector(1 downto 0);
+        y : out std_logic_vector(2 downto 0)
+    );
+end entity;
+
+architecture behavioral of mux_3bit_4to1 is
+begin
+    process (a0, a1, a2, a3, sel)
     begin
-        process (clk,Din)
-          begin
-           if(clk&#x27;event and clk=&#x27;1&#x27;) then
-                 Q &lt;= Din;
-                 Qnot &lt;= (not Din);
-               end if;
-        end process;
-end Structure;</code></pre><h1 id="7ad56a3c-d317-4fec-9088-3ceb37279fec" class="">03 - Simulation Process</h1><h1 id="4d5c5f47-5e4d-4ec2-ac9e-148b147a5afa" class="">04 - Flashing Process</h1><p id="a341050a-3c6d-4c30-a6a9-771250493a97" class="">Please follow the same steps found in <code>lab-03</code> in order to synthesise and flash the FPGA.</p></div></article></body></html>
+        case sel is
+            when &quot;00&quot; =&gt;
+                y &lt;= a0;
+            when &quot;01&quot; =&gt;
+                y &lt;= a1;
+            when &quot;10&quot; =&gt;
+                y &lt;= a2;
+            when others =&gt;
+                y &lt;= a3;
+        end case;
+    end process;
+end architecture;</code></pre><h1 id="53f91d47-97b5-4730-aac5-b48647e5cc5b" class="">03. Sample Testbench:</h1><pre id="09c91767-adeb-469d-9a12-cf5fd309eca3" class="code"><code>library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux_3bit_4to1_tb is
+end entity;
+
+architecture behavioral of mux_3bit_4to1_tb is
+    signal a0, a1, a2, a3, y : std_logic_vector(2 downto 0);
+    signal sel : std_logic_vector(1 downto 0);
+begin
+    uut: entity work.mux_3bit_4to1
+        port map (
+            a0 =&gt; a0,
+            a1 =&gt; a1,
+            a2 =&gt; a2,
+            a3 =&gt; a3,
+            sel =&gt; sel,
+            y =&gt; y
+        );
+
+    stimulus: process
+    begin
+        -- Test case 1: select input 0
+        sel &lt;= &quot;00&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;001&quot; report &quot;Test case 1 failed&quot; severity error;
+
+        -- Test case 2: select input 1
+        sel &lt;= &quot;01&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;010&quot; report &quot;Test case 2 failed&quot; severity error;
+
+        -- Test case 3: select input 2
+        sel &lt;= &quot;10&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;011&quot; report &quot;Test case 3 failed&quot; severity error;
+
+        -- Test case 4: select input 3
+        sel &lt;= &quot;11&quot;;
+        a0 &lt;= &quot;001&quot;;
+        a1 &lt;= &quot;010&quot;;
+        a2 &lt;= &quot;011&quot;;
+        a3 &lt;= &quot;100&quot;;
+        wait for 10 ns;
+        assert y = &quot;100&quot; report &quot;Test case 4 failed&quot; severity error;
+
+        wait;
+    end process;
+end architecture;</code></pre><h1 id="babcaab7-b038-47bc-9248-1ea3d6e959a3" class="">04. Simulation Output</h1><figure id="3160af1b-7ae1-4176-a597-7d0c67af4b81" class="image"><a href="07%203-bit%204-to-1%20MUX%2085963eb9c6164c8f847b6819dca6c2a2/Untitled.png"><img style="width:2653px" src="07%203-bit%204-to-1%20MUX%2085963eb9c6164c8f847b6819dca6c2a2/Untitled.png"/></a></figure></div></article></body></html>
